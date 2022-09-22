@@ -27,10 +27,10 @@ app.use(views(__dirname + '/views', {
 }))
 
 // 配置session
-app.kes = ['lee session keys'];
+app.keys = ['lee session keys'];
 app.use(session({
   key: 'basic.sid', // cookie name, 默认koa.sid
-  prefix: 'basicBackend:sess:', // redis key的前缀，默认koa:sess:
+  prefix: 'basicBackend:', // redis key的前缀，默认koa:sess:
   cookie: {
     path: '/',
     httpOnly: true,
@@ -41,13 +41,13 @@ app.use(session({
   }),
 }))
 
-app.use(async(ctx, next) => {
-  var session = ctx.session;
-  session.count = session.count || 0;
-  session.count++;
-  console.log(session.count, 'count');
-  next();
-})
+// app.use(async(ctx, next) => {
+//   var session = ctx.session;
+//   session.count = session.count || 0;
+//   session.count++;
+//   console.log(session.count, 'count');
+//   next();
+// })
 
 // logger
 app.use(async (ctx, next) => {

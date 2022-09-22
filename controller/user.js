@@ -29,9 +29,11 @@ async function login(ctx, userName, password) {
   }
 
   // 登陆成功
-  if (ctx.session.userInfo === null) {
+  // ctx.session.userName = userInfo.userName;
+  if (ctx.session.userInfo == null) {
     ctx.session.userInfo = userInfo;
   }
+  console.log(ctx.session.userInfo, 'session')
   return new SuccessModel({data: ctx.session.userInfo})
 }
 
@@ -44,6 +46,7 @@ async function delUser (ctx, userName, password) {
   }
   // 删除
   await deleteUser(userName)
+  ctx.session.userInfo = null;
   return new SuccessModel({data: '删除成功'})
 }
 
@@ -65,9 +68,15 @@ async function changeInfo(ctx, { newUserName, gender, picture }) {
   return new ErrorModel({message: '修改失败'})
 }
 
+async function logout(ctx) {
+  delete ctx.session.userInfo;
+  return new SuccessModel({message: '退出成功'})
+}
+
 module.exports = {
   register,
   login,
   delUser,
   changeInfo,
+  logout,
 }
